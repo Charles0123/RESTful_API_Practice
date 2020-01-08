@@ -13,7 +13,6 @@ router.route('/:user_id')
   .put(userCtrl.userPut) /** 修改 User 值組 */
   .delete(userCtrl.userDelete); /** 刪除 User 值組 */
 
-/* User Login */
-router.route('/login').post(userCtrl.userLogin);
+router.route('/login').post(userCtrl.userLogin); /** User 登入 */
 
 export default router;
