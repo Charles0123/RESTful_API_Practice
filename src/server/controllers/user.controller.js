@@ -1,5 +1,5 @@
 import userModule from '../modules/user.module';
-import bcrypt from 'bcrypt';//加密用
+import bcrypt from 'bcryptjs';//加密用
 /**
  * User 資料表
  */
@@ -16,15 +16,21 @@ const userPost = (req, res) => {
   // 取得新增參數
   // const insertValues = req.body; //非加密寫法
 
-  const insertValues = {
-    user_name : req.body.user_name,
-    user_mail:req.body.user_mail,
-    user_password: bcrypt.hashSync(req.body.user_password, 10) //密碼加密
+    // 取得新增參數
+    const hash = bcrypt.hashSync(req.body.user_password,10);//定義加密
+    const insertValues = {
+      user_id: req.body.user_id,
+      user_name: req.body.user_name,
+      user_mail: req.body.user_mail,
+      user_password:hash,// 密碼加密
+      user_created_time: req.body.user_created_time,
+      user_updated_time: req.body.user_updated_time
+    };
+
+    userModule.createUser(insertValues).then((result) => {
+      res.send(result); // 成功回傳result結果
+    }).catch((err) => { return res.send(err); }); // 失敗回傳錯誤訊息
   };
-  userModule.createUser(insertValues).then((result) => {
-    res.send(result); // 成功回傳result結果
-  }).catch((err) => { return res.send(err); }); // 失敗回傳錯誤訊息
-};
 
 /* User PUT 修改 */
 const userPut = (req, res) => {
