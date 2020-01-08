@@ -1,7 +1,7 @@
 import express from 'express';
 import articleCtrl from '../controllers/article.controller';
 import paramValidation from '../../config/param-validation';
-import { validate } from 'joi';
+import validate from 'express-validation';
 
 const router = express.Router();
 

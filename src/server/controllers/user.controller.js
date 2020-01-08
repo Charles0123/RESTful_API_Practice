@@ -1,5 +1,5 @@
 import userModule from '../modules/user.module';
-
+import bcrypt from 'bcrypt';//加密用
 /**
  * User 資料表
  */
@@ -14,7 +14,13 @@ const userGet = (req, res) => {
 /* User  POST 新增 */
 const userPost = (req, res) => {
   // 取得新增參數
-  const insertValues = req.body;
+  // const insertValues = req.body; //非加密寫法
+
+  const insertValues = {
+    user_name : req.body.user_name,
+    user_mail:req.body.user_mail,
+    user_password: bcrypt.hashSync(req.body.user_password, 10) //密碼加密
+  };
   userModule.createUser(insertValues).then((result) => {
     res.send(result); // 成功回傳result結果
   }).catch((err) => { return res.send(err); }); // 失敗回傳錯誤訊息
